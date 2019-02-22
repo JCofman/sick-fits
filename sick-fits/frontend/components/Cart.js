@@ -23,7 +23,6 @@ const TOGGLE_CART_MUTATION = gql`
     toggleCart @client
   }
 `;
-
 const Composed = adopt({
   user: ({ render }) => <User>{render}</User>,
   toggleCart: ({ render }) => (

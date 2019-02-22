@@ -9,14 +9,6 @@ type AggregateItem {
   count: Int!
 }
 
-type AggregateOrder {
-  count: Int!
-}
-
-type AggregateOrderItem {
-  count: Int!
-}
-
 type AggregateUser {
   count: Int!
 }
@@ -321,8 +313,6 @@ input CartItemWhereInput {
 input CartItemWhereUniqueInput {
   id: ID
 }
-
-scalar DateTime
 
 type Item implements Node {
   id: ID!
@@ -773,15 +763,11 @@ type Order implements Node {
   updatedAt: DateTime!
 }
 
-"""A connection to a list of items."""
-type OrderConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
 
-  """A list of edges."""
-  edges: [OrderEdge]!
-  aggregate: AggregateOrder!
-}
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
 
 input OrderCreateInput {
   total: Int!
@@ -790,16 +776,20 @@ input OrderCreateInput {
   user: UserCreateOneInput!
 }
 
-"""An edge in a connection."""
-type OrderEdge {
-  """The item at the end of the edge."""
-  node: Order!
-
-  """A cursor for use in pagination."""
-  cursor: String!
+  """Fetches an object given its ID"""
+  node(
+    """The ID of an object"""
+    id: ID!
+  ): Node
 }
 
-type OrderItem implements Node {
+type Subscription {
+  cartItem(where: CartItemSubscriptionWhereInput): CartItemSubscriptionPayload
+  item(where: ItemSubscriptionWhereInput): ItemSubscriptionPayload
+  user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User implements Node {
   id: ID!
   title: String!
   description: String!
@@ -811,13 +801,13 @@ type OrderItem implements Node {
 }
 
 """A connection to a list of items."""
-type OrderItemConnection {
+type UserConnection {
   """Information to aid in pagination."""
   pageInfo: PageInfo!
 
   """A list of edges."""
-  edges: [OrderItemEdge]!
-  aggregate: AggregateOrderItem!
+  edges: [UserEdge]!
+  aggregate: AggregateUser!
 }
 
 input OrderItemCreateInput {
@@ -830,15 +820,15 @@ input OrderItemCreateInput {
   user: UserCreateOneInput
 }
 
-input OrderItemCreateManyInput {
-  create: [OrderItemCreateInput!]
-  connect: [OrderItemWhereUniqueInput!]
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
-"""An edge in a connection."""
-type OrderItemEdge {
-  """The item at the end of the edge."""
-  node: OrderItem!
+input UserCreateOneWithoutCartInput {
+  create: UserCreateWithoutCartInput
+  connect: UserWhereUniqueInput
+}
 
   """A cursor for use in pagination."""
   cursor: String!
@@ -1838,7 +1828,7 @@ input UserCreateWithoutCartInput {
   email: String!
   password: String!
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
 }
 
@@ -1924,7 +1914,7 @@ input UserUpdateDataInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
   cart: CartItemUpdateManyWithoutUserInput
 }
@@ -1934,7 +1924,7 @@ input UserUpdateInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
   cart: CartItemUpdateManyWithoutUserInput
 }
@@ -1980,7 +1970,7 @@ input UserUpdateWithoutCartDataInput {
   email: String
   password: String
   resetToken: String
-  resetTokenExpiry: String
+  resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
 }
 
