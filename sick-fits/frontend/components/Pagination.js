@@ -7,7 +7,7 @@ import Error from "./ErrorMessage";
 import PaginationStyles from "./styles/PaginationStyles";
 import { perPage } from "../config";
 
-const PAGINATION_QUERY = gql`
+export const PAGINATION_QUERY = gql`
   query PAGINATION_QUERY {
     itemsConnection {
       aggregate {
@@ -23,12 +23,11 @@ const Pagination = props => {
       {({ data, loading, error }) => {
         if (error) return <Error error={error} />;
         if (loading) return <p>loading...</p>;
-        console.log(data);
         const count = data.itemsConnection.aggregate.count;
         const pages = Math.ceil(count / perPage);
         const page = props.page;
         return (
-          <PaginationStyles>
+          <PaginationStyles data-test="pagination">
             <Head>
               <title>
                 Sick fits! - Page {page} of {pages}

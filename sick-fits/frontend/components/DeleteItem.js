@@ -20,7 +20,6 @@ const DeleteItem = props => {
         // 1. read items
 
         const data = cache.readQuery({ query: ALL_ITEMS_QUERY });
-        console.log(data, payload);
         data.items = data.items.filter(
           item => item.id !== payload.data.deleteItem.id
         );

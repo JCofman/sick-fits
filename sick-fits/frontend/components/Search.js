@@ -34,7 +34,6 @@ const Search = () => {
       query: SEARCH_ITEM_QUERY,
       variables: { searchTerm: e.target.value }
     });
-    console.log(res);
     setItems({
       items: res.data.items,
       loading: false

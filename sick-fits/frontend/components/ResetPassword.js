@@ -51,7 +51,6 @@ const ResetPassword = props => {
           method="post"
           onSubmit={async e => {
             e.preventDefault();
-            console.log(resetInfos);
             const res = await resetPassword();
             setResetInfos({ password: "", confirmPassword: "" });
           }}

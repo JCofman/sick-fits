@@ -6,7 +6,11 @@ describe("FormatMoney", () => {
     expect(formatMoney(10)).toEqual("$0.10");
     expect(formatMoney(50)).toEqual("$0.50");
   });
-  it("works with cents of  dollars", () => {
+  it("leaves cents of for whole dollars", () => {
+    expect(formatMoney(100)).toEqual("$1");
+    expect(formatMoney(500)).toEqual("$5");
+  });
+  it("leaves cents of for whole dollars", () => {
     expect(formatMoney(100)).toEqual("$1");
     expect(formatMoney(500)).toEqual("$5");
   });
